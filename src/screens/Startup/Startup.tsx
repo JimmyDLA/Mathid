@@ -1,35 +1,26 @@
 import type { RootScreenProps } from '@/navigation/types';
 
-import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Text, View } from 'react-native';
-
+import { View } from 'react-native';
+import { AssetByVariant } from '@/components/atoms';
+import { colors } from '../../theme/color';
 import { useTheme } from '@/theme';
 import { Paths } from '@/navigation/paths';
-
-import { AssetByVariant } from '@/components/atoms';
 import { SafeScreen } from '@/components/templates';
+import LottieView from "lottie-react-native";
+import lottieLogo from '../../../assets/lottie/lottie-logo.json'
 
 function Startup({ navigation }: RootScreenProps<Paths.Startup>) {
-  const { fonts, gutters, layout } = useTheme();
-  const { t } = useTranslation();
-
-  const { isError, isFetching, isSuccess } = useQuery({
-    queryFn: () => {
-      return Promise.resolve(true);
-    },
-    queryKey: ['startup'],
-  });
+  const { layout } = useTheme();
 
   useEffect(() => {
-    if (isSuccess) {
+    setTimeout(() => {
       navigation.reset({
         index: 0,
-        routes: [{ name: Paths.Example }],
+        routes: [{ name: Paths.Home }],
       });
-    }
-  }, [isSuccess, navigation]);
+    }, 2000);
+  });
 
   return (
     <SafeScreen>
@@ -39,22 +30,26 @@ function Startup({ navigation }: RootScreenProps<Paths.Startup>) {
           layout.col,
           layout.itemsCenter,
           layout.justifyCenter,
+          styles
         ]}
       >
         <AssetByVariant
-          path={'tom'}
+          path={'Mathid'}
           resizeMode={'contain'}
-          style={{ height: 300, width: 300 }}
         />
-        {isFetching && (
-          <ActivityIndicator size="large" style={[gutters.marginVertical_24]} />
-        )}
-        {isError && (
-          <Text style={[fonts.size_16, fonts.red500]}>{t('common_error')}</Text>
-        )}
+        <LottieView 
+          source={lottieLogo}
+          style={{width: "100%", height: "60%"}}
+          autoPlay
+          loop
+        />
       </View>
     </SafeScreen>
   );
+}
+
+const styles = {
+  backgroundColor: colors.aliceBlue
 }
 
 export default Startup;

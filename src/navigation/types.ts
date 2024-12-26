@@ -4,6 +4,8 @@ import type { Paths } from '@/navigation/paths';
 export type RootStackParamList = {
   [Paths.Example]: undefined;
   [Paths.Startup]: undefined;
+  [Paths.Home]: undefined;
+  [Paths.Problem]: undefined;
 };
 
 export type RootScreenProps<
